@@ -4,33 +4,35 @@ import api from './services/api'
 import "./styles.css";
 
 function App() {
-  const [projects, setProjects] = useState([])
+  const [repositories, setrepositories] = useState([])
 
   useEffect(() => {
-    api.get('projects').then(response => {
-      setProjects(response.data)
+    api.get('repositories').then(response => {
+      setrepositories(response.data)
+      
     })
-  }, [projects])
+  }, [repositories])
 
   async function handleAddRepository() {
-    api.post('projects', {
-      title: 'Repositório ' + Date.now(),
-      owner: 'Author'
+    api.post('repositories', {
+      title: `Novo Repositorio ${Date.now()}`,
+      url: "https://github.com/igorrgarcia/desafio-conceitos-node",
+      techs: ["Nodejs", "Javascript", "Express"]
     })
   }
 
   async function handleRemoveRepository(id) {
-    api.delete(`projects/${id}`)
+    api.delete(`repositories/${id}`)
   }
 
   return (
     <div>
       <ul data-testid="repository-list">
-        {projects.map(project => {
+        {repositories.map(repository => {
             return (
-              <li key={project.id}>
-                {project.title}
-                <button onClick={() => handleRemoveRepository(project.id)}>
+              <li key={repository.id}>
+                {repository.title}
+                <button onClick={() => handleRemoveRepository(repository.id)}>
                 Remover
                 </button>
               </li>
